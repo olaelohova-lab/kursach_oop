@@ -24,4 +24,3 @@ class device : public equat { // устройство
 
 };
 //bebe
-//322
