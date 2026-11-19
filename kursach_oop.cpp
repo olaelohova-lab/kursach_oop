@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#define N 4
 using namespace std;
 
 
@@ -49,24 +50,65 @@ class riddle : public room { // задача
 class equat : virtual public riddle { // уравнение
   string body; // тело функции
   int ans; //ответ
-  bool massiv[4]; // в методе будет высчитываться с помощью ans и заполняться с конца, выделяться память по ridl 
+  protected:
+  bool massiv[N]; //ответ в двоичном
   public:
   equat();
   equat();
 };
 
 class interact : virtual public riddle { // взаимодействие
-  bool lever[4];
-  void change_l(int n);
+  protected:
+  bool lever[N];
   public:
   interact();
   interact();
+  void change_l(int n);
 };
 
-class device : public equat { // устройство
+class device : public equat, public interact{ // устройство
   bool castle; // Замок (закрыт или открыт)
   void complite(); // если lever==massiv то true
   public:
   device();
   device();
 };
+
+// методы класса room
+room::room() {}
+room::room() {}
+// методы класса fight
+fight::fight() {}
+fight::fight() {}
+// методы класса enemy
+enemy::enemy() {}
+enemy::enemy() {}
+// методы класса action
+action::action() {}
+action::action() {}
+// методы класса riddle
+riddle::riddle() {}
+riddle::riddle() {}
+// методы класса equat
+equat::equat() {}
+equat::equat() {}
+// методы класса interact
+interact::interact() {
+  for (int i = 0; i < N; i++) lever[i] = false;
+}
+interact::interact() {}
+void interact::change_l(int n) {
+  if (n>=N) return;
+  lever[n] !=lever[n];
+}
+// методы класса device
+device::device() {
+  castle = false;
+}
+device::device() {}
+void device::complite() {
+  for (int i = 0; i < N; i++) {
+    if (lever[i]==massiv[i]) return;
+  }
+  castle = true;
+}
