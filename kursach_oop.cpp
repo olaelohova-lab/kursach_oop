@@ -12,39 +12,40 @@ class room { // комната абстрактный класс
   bool compl;
   void virtual complite() = 0;
   public:
-  room();
-  room(int _num);
+  room(); //+
+  room(string _script, int _num_r, bool _compl); // +
+  ~room(); //+
 };
 
 class fight : public room { // боевой
-  int all_enemy; // lkz
+  int all_enemy; // 
   void complite(); // вызываем get_count_e, если 0, true
   public:
-  fight();
-  fight();
+  fight(); // +
+  fight(string _script, int _num_r, bool _compl, int _all_e);// +
 };
 class enemy : public fight { // враг
   string name;
   int hp, atc, def;
   static int c_enemy; // для подсчета, если хп в ноль значит и общее кол-во уменьшается
   public:
-  static int get_count_e();
-  public:
-  enemy();
-  enemy();
+  static int get_count();
+  enemy();//+
+  enemy(string _script, int _num_r, bool _compl, int _all_en, int _hp, int _atc,int _def);//+
+  ~enemy();//+
 };
 class action : public fight { // действие
   public:
-  action();
-  action();
+  action();//
+  action();//
 };
 
 class riddle : public room { // задача
   protected:
   int count; // количество рычагов для ответа и управления
   public:
-  riddle();
-  riddle();
+  riddle();//
+  riddle();//
 };
 
 class equat : virtual public riddle { // уравнение
@@ -53,36 +54,69 @@ class equat : virtual public riddle { // уравнение
   protected:
   bool massiv[N]; //ответ в двоичном
   public:
-  equat();
-  equat();
+  equat();//
+  equat();//
 };
 
 class interact : virtual public riddle { // взаимодействие
   protected:
   bool lever[N];
   public:
-  interact();
-  interact();
-  void change_l(int n);
+  interact();//
+  interact();//
+  void change_l(int n);//
 };
 
 class device : public equat, public interact{ // устройство
   bool castle; // Замок (закрыт или открыт)
   void complite(); // если lever==massiv то true
   public:
-  device();
-  device();
+  device();//
+  device();//
 };
 
 // методы класса room
-room::room() {}
-room::room() {}
+room::room() {
+  script = "";
+  num_r = 1;
+  compl = false;
+  count_r++;
+}
+room::room(string _script, int _num_r, bool _compl) {
+  script = _script;
+  num_r = _num_r;
+  compl = _compl;
+  count_r++;
+}
+room::~room() {
+  count_r--;
+}
 // методы класса fight
-fight::fight() {}
-fight::fight() {}
+fight::fight() {
+  all_enemy = 1;
+}
+fight::fight(string _script, int _num_r, bool _compl, int _all_e) : room(_script, _num_r, _compl) {
+  all_enemy = _all_e;
+}
 // методы класса enemy
-enemy::enemy() {}
-enemy::enemy() {}
+enemy::enemy() {
+  hp = 10;
+  atc = 2;
+  def = 12;
+  c_enemy +=1;
+}
+enemy::enemy(string _script, int _num_r, bool _compl, int _all_en, int _hp, int _atc,int _def) : fight(_script, _num_r, _compl, _all_en) {
+  hp = _hp;
+  atc = _atc;
+  def = _def;
+  c_enemy++;
+}
+enemy::~enemy() {
+  c_enemy--;
+}
+int enemy::get_count() {
+  return c_enemy;
+}
 // методы класса action
 action::action() {}
 action::action() {}
